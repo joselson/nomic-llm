@@ -101,6 +101,13 @@ class Night:
             self.io.send_to(e.author, {"t": "idea_status", "status": "compiling", "text": e.text})
         if not total:
             return
+        warm = getattr(self.compile_fn, "warmup", None)
+        if warm is not None and total > 1:
+            # all ideas share the cached prefix: write it once before the parallel burst
+            try:
+                await asyncio.wait_for(warm(), timeout=min(15.0, self.compile_deadline_s / 4))
+            except Exception:  # noqa: BLE001
+                log.warning("compiler warmup skipped")
         ready = 0
 
         async def one(e: IdeaEntry) -> None:

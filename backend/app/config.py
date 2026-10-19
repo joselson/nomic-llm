@@ -28,6 +28,8 @@ class Config:
     max_players: int = 8
     compile_model: str = "claude-sonnet-5-5"
     compile_max_attempts: int = 3
+    compile_effort: str = "medium"
+    compile_fallbacks: bool = True     # server-side refusal fallback (Claude API only)
     sim_seconds: float = 120
     debug: bool = False
     data_dir: str = "data"
