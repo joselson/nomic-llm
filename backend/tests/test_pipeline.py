@@ -7,7 +7,8 @@ import pytest
 
 from game import dsl_examples as ex
 from game.dsl import Mechanic
-from game.pipeline.compiler import TOOLS, Compiler
+from game.pipeline.agents.anthropic_api import TOOLS, AnthropicAPIProvider
+from game.pipeline.compiler import Compiler
 from game.pipeline.prompts import SYSTEM_PROMPT, user_message
 from game.pipeline.simulate import simulate
 from game.pipeline.world_summary import world_summary
@@ -44,9 +45,9 @@ class FakeClient:
 def compiler(replies, live=(), **kw):
     client = FakeClient(replies)
     live = list(live)
-    c = Compiler(client, model="claude-sonnet-5-5", live=live,
-                 summary=world_summary(live, day=1, player_count=4, map_size=48), live_day=1, players=4,
-                 map_size=48, points_cap=5, max_entities=1000, sim_seconds=20, **kw)
+    provider = AnthropicAPIProvider(client, model="claude-sonnet-5-5", **kw)
+    c = Compiler(provider, live=live, summary=world_summary(live, day=1, player_count=4, map_size=48),
+                 live_day=1, players=4, map_size=48, points_cap=5, max_entities=1000, sim_seconds=20)
     return c, client.api
 
 
@@ -95,7 +96,7 @@ async def test_no_tool_call_reprompts_and_refusal():
                        reply(tool_use("submit_mechanic", ex.KING_OF_THE_HILL))])
     res = await c("a hill")
     assert res.status == "ok"
-    assert api.calls[1]["messages"][-1]["content"][0]["type"] == "text"
+    assert "submit_mechanic" in api.calls[1]["messages"][-1]["content"]
     c, _ = compiler([reply(stop="refusal")])
     assert (await c("x")).status == "infeasible"
 
@@ -153,9 +154,9 @@ async def test_live_compile():
     import anthropic
     client = anthropic.AsyncAnthropic()
     live = [mech(ex.APPLE_TREES)]
-    c = Compiler(client, model=os.environ.get("PN_COMPILE_MODEL", "claude-sonnet-5-5"), live=live,
-                 summary=world_summary(live, day=2, player_count=4, map_size=48), live_day=2, players=4,
-                 map_size=48, points_cap=5, max_entities=1000, sim_seconds=30)
+    provider = AnthropicAPIProvider(client, model=os.environ.get("PN_COMPILE_MODEL", "claude-sonnet-5-5"))
+    c = Compiler(provider, live=live, summary=world_summary(live, day=2, player_count=4, map_size=48),
+                 live_day=2, players=4, map_size=48, points_cap=5, max_entities=1000, sim_seconds=30)
     three_d = await c("make the game 3D")
     assert three_d.status == "infeasible" and three_d.reason
     cheat = await c("give me 100 points")
@@ -170,6 +171,6 @@ async def test_missing_credentials_reported_as_unconfigured():
         async def create(self, **kw):
             raise TypeError("Could not resolve authentication method.")
     c, _ = compiler([])
-    c.client = NS(messages=NoAuth(), beta=NS(messages=NoAuth()))
+    c.provider.client = NS(messages=NoAuth(), beta=NS(messages=NoAuth()))
     res = await c("anything")
     assert res.status == "infeasible" and "configured" in res.reason

@@ -13,6 +13,14 @@ COPY backend/pyproject.toml ./
 COPY backend/app ./app
 COPY backend/game ./game
 RUN pip install --no-cache-dir .
+# Claude Code CLI for the default `claude_code` agent provider (needs Node from the web stage)
+ARG INSTALL_CLAUDE_CODE=1
+COPY --from=web /usr/local/bin/node /usr/local/bin/node
+COPY --from=web /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN if [ "$INSTALL_CLAUDE_CODE" = "1" ]; then \
+      ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
+      npm install -g --no-fund --no-audit @anthropic-ai/claude-code && claude --version; \
+    fi
 COPY --from=web /web/dist /app/frontend/dist
 ENV PN_FRONTEND_DIST=/app/frontend/dist \
     PN_DATA_DIR=/data \

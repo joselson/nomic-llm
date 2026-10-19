@@ -7,12 +7,26 @@ The design brief is [`SPEC.md`](SPEC.md). The mechanics DSL lives in [`backend/g
 ## Quick start (Docker)
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...      # needed for the night compiler
+claude setup-token                       # once, on your machine: prints a long-lived token for your Claude subscription
+export CLAUDE_CODE_OAUTH_TOKEN=...       # or: export ANTHROPIC_API_KEY=sk-ant-...
 docker compose up --build
 # open http://localhost:8000, create a room, share the invite link
 ```
 
 Without credentials the game still runs; every idea is reported back as "compiler not configured" and nights are quiet.
+
+## Night compiler providers
+
+The compiler's model calls go through a pluggable provider (`backend/game/pipeline/agents/`), chosen with `PN_AGENT_PROVIDER`:
+
+| Provider | How it calls Claude | Credentials |
+|---|---|---|
+| `claude_code` (default) | Claude Code headless: `claude -p --output-format json --json-schema …`, one stateless call per attempt | whatever the CLI is logged in with: `claude` login, `CLAUDE_CODE_OAUTH_TOKEN`, or `ANTHROPIC_API_KEY` |
+| `anthropic` | Anthropic Messages API with `submit_mechanic` / `reject_idea` tools, prompt caching, refusal fallback | `ANTHROPIC_API_KEY` |
+
+Both share the same retry loop (validate → simulate → feed errors back). To add a provider, implement `AgentProvider` (`session()` returning an object with `async send(text) -> AgentReply`) and register it in `agents/__init__.py`.
+
+Note: a Claude subscription is meant for your own use. If you host games for other people, switch to `PN_AGENT_PROVIDER=anthropic` with an API key.
 
 ## Development
 
@@ -35,7 +49,7 @@ npm run dev          # http://localhost:5173, proxies /api and /ws to :8000
 ```bash
 cd backend
 python -m pytest                 # engine, scenarios, protocol, rooms, pipeline (Claude mocked)
-RUN_LLM_TESTS=1 python -m pytest tests/test_pipeline.py -k live   # one real compile run
+RUN_LLM_TESTS=1 python -m pytest -k live   # real compile runs (Claude Code CLI and/or API key)
 python -m game.dsl_examples      # DSL self-test; regenerates game/mechanic.schema.json
 
 cd ../frontend && npm run typecheck
@@ -54,7 +68,7 @@ The in-game debug panel and these endpoints are enabled only with `DEBUG=1`:
 
 ## Configuration
 
-Every field of [`backend/app/config.py`](backend/app/config.py) can be overridden with `PN_<NAME>`, e.g. `PN_PLAY_SECONDS=120`, `PN_COMPILE_MODEL=claude-sonnet-5-5`, `PN_COMPILE_EFFORT=medium`, `PN_DATA_DIR=/data`. The host can also change day lengths, max days and the win target in the lobby.
+Every field of [`backend/app/config.py`](backend/app/config.py) can be overridden with `PN_<NAME>`, e.g. `PN_PLAY_SECONDS=120`, `PN_AGENT_PROVIDER=claude_code`, `PN_COMPILE_MODEL=claude-sonnet-5-5`, `PN_AGENT_MAX_PARALLEL=4`, `PN_COMPILE_EFFORT=medium`, `PN_DATA_DIR=/data`. The host can also change day lengths, max days and the win target in the lobby.
 
 The compiler logs every idea (text, outcome, attempts, errors, final JSON, votes, token usage) to `data/ideas.jsonl` — the dataset for deciding which DSL primitives to add next.
 

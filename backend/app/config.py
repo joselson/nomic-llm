@@ -26,6 +26,9 @@ class Config:
     points_cap_per_mechanic: float = POINTS_CAP_PER_MECHANIC
     max_entities: int = 1000
     max_players: int = 8
+    agent_provider: str = "claude_code"   # claude_code | anthropic  (game/pipeline/agents)
+    claude_code_bin: str = "claude"
+    agent_max_parallel: int = 4           # concurrent CLI processes for the claude_code provider
     compile_model: str = "claude-sonnet-5-5"
     compile_max_attempts: int = 3
     compile_effort: str = "medium"
