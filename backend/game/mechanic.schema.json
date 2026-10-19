@@ -1,0 +1,6604 @@
+{
+ "$defs": {
+  "AbilityDef": {
+   "additionalProperties": false,
+   "description": "A player action bound to a key by the client.",
+   "properties": {
+    "ability": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Ability",
+     "type": "string"
+    },
+    "name": {
+     "maxLength": 32,
+     "title": "Name",
+     "type": "string"
+    },
+    "description": {
+     "default": "",
+     "maxLength": 280,
+     "title": "Description",
+     "type": "string"
+    },
+    "icon": {
+     "anyOf": [
+      {
+       "maxLength": 8,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Icon"
+    },
+    "available_to": {
+     "default": "everyone",
+     "enum": [
+      "everyone",
+      "creator",
+      "granted"
+     ],
+     "title": "Available To",
+     "type": "string"
+    },
+    "targeting": {
+     "default": "none",
+     "enum": [
+      "none",
+      "self",
+      "direction",
+      "point",
+      "entity",
+      "player"
+     ],
+     "title": "Targeting",
+     "type": "string"
+    },
+    "range": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 3,
+     "title": "Range"
+    },
+    "cost": {
+     "items": {
+      "$ref": "#/$defs/Cost"
+     },
+     "title": "Cost",
+     "type": "array"
+    },
+    "if": {
+     "items": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "integer"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "$ref": "#/$defs/Ref"
+       },
+       {
+        "$ref": "#/$defs/Op"
+       },
+       {
+        "$ref": "#/$defs/Aggregate"
+       }
+      ]
+     },
+     "maxItems": 8,
+     "title": "If",
+     "type": "array"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "minItems": 1,
+     "title": "Do",
+     "type": "array"
+    },
+    "limits": {
+     "$ref": "#/$defs/Limits"
+    },
+    "disabled": {
+     "default": false,
+     "title": "Disabled",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "ability",
+    "name",
+    "do"
+   ],
+   "title": "AbilityDef",
+   "type": "object"
+  },
+  "AddPointsFx": {
+   "additionalProperties": false,
+   "description": "The only way to change points. Capped at runtime per mechanic/player/day.",
+   "properties": {
+    "fx": {
+     "const": "add_points",
+     "title": "Fx",
+     "type": "string"
+    },
+    "to": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "To"
+    },
+    "amount": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Amount"
+    },
+    "reason": {
+     "anyOf": [
+      {
+       "maxLength": 280,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Reason"
+    }
+   },
+   "required": [
+    "fx",
+    "amount"
+   ],
+   "title": "AddPointsFx",
+   "type": "object"
+  },
+  "AfterFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "after",
+     "title": "Fx",
+     "type": "string"
+    },
+    "delay_s": {
+     "maximum": 600,
+     "minimum": 0,
+     "title": "Delay S",
+     "type": "number"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Do",
+     "type": "array"
+    }
+   },
+   "required": [
+    "fx",
+    "delay_s"
+   ],
+   "title": "AfterFx",
+   "type": "object"
+  },
+  "Aggregate": {
+   "additionalProperties": false,
+   "description": "Fold over a selection; `value` is evaluated per item with `it` bound.",
+   "properties": {
+    "agg": {
+     "enum": [
+      "count",
+      "sum",
+      "min",
+      "max",
+      "avg",
+      "any",
+      "all"
+     ],
+     "title": "Agg",
+     "type": "string"
+    },
+    "of": {
+     "$ref": "#/$defs/Selector"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Value"
+    }
+   },
+   "required": [
+    "agg",
+    "of"
+   ],
+   "title": "Aggregate",
+   "type": "object"
+  },
+  "ApplyStatusFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "apply_status",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "status": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Status",
+     "type": "string"
+    },
+    "duration_s": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Duration S"
+    },
+    "stacks": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 1,
+     "title": "Stacks"
+    }
+   },
+   "required": [
+    "fx",
+    "status"
+   ],
+   "title": "ApplyStatusFx",
+   "type": "object"
+  },
+  "Around": {
+   "additionalProperties": false,
+   "description": "A position relative to something: random spot within radius, plus offset.",
+   "properties": {
+    "around": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "title": "Around"
+    },
+    "radius": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 0,
+     "title": "Radius"
+    },
+    "offset": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null
+    }
+   },
+   "required": [
+    "around"
+   ],
+   "title": "Around",
+   "type": "object"
+  },
+  "Behavior": {
+   "additionalProperties": false,
+   "description": "Built-in movement AI for entities.",
+   "properties": {
+    "kind": {
+     "default": "static",
+     "enum": [
+      "static",
+      "wander",
+      "follow",
+      "flee",
+      "chase",
+      "patrol",
+      "orbit",
+      "projectile",
+      "bounce",
+      "guard",
+      "move_to"
+     ],
+     "title": "Kind",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Target"
+    },
+    "speed": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 1,
+     "title": "Speed"
+    },
+    "range": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Range"
+    },
+    "path": {
+     "anyOf": [
+      {
+       "items": {
+        "$ref": "#/$defs/Point"
+       },
+       "type": "array"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Path"
+    },
+    "stop_at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Stop At"
+    }
+   },
+   "title": "Behavior",
+   "type": "object"
+  },
+  "ChanceFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "chance",
+     "title": "Fx",
+     "type": "string"
+    },
+    "p": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "P"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Do",
+     "type": "array"
+    },
+    "else": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Else",
+     "type": "array"
+    }
+   },
+   "required": [
+    "fx",
+    "p"
+   ],
+   "title": "ChanceFx",
+   "type": "object"
+  },
+  "ChangeFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "change",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "prop": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Prop",
+     "type": "string"
+    },
+    "delta": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Delta"
+    }
+   },
+   "required": [
+    "fx",
+    "prop",
+    "delta"
+   ],
+   "title": "ChangeFx",
+   "type": "object"
+  },
+  "ChoiceOption": {
+   "additionalProperties": false,
+   "properties": {
+    "label": {
+     "maxLength": 40,
+     "title": "Label",
+     "type": "string"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Do",
+     "type": "array"
+    }
+   },
+   "required": [
+    "label"
+   ],
+   "title": "ChoiceOption",
+   "type": "object"
+  },
+  "Cost": {
+   "additionalProperties": false,
+   "properties": {
+    "what": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "What",
+     "type": "string"
+    },
+    "amount": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 1,
+     "title": "Amount"
+    }
+   },
+   "required": [
+    "what"
+   ],
+   "title": "Cost",
+   "type": "object"
+  },
+  "CreateZoneFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "create_zone",
+     "title": "Fx",
+     "type": "string"
+    },
+    "zone": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Zone",
+     "type": "string"
+    },
+    "at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      }
+     ],
+     "default": "actor",
+     "title": "At"
+    },
+    "duration_s": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Duration S"
+    },
+    "owner": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Owner"
+    }
+   },
+   "required": [
+    "fx",
+    "zone"
+   ],
+   "title": "CreateZoneFx",
+   "type": "object"
+  },
+  "CreatorPerk": {
+   "additionalProperties": false,
+   "properties": {
+    "royalty_points": {
+     "default": 0,
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Royalty Points",
+     "type": "number"
+    },
+    "exclusive_s": {
+     "default": 0,
+     "maximum": 120,
+     "minimum": 0,
+     "title": "Exclusive S",
+     "type": "number"
+    },
+    "discount": {
+     "default": 0,
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Discount",
+     "type": "number"
+    }
+   },
+   "title": "CreatorPerk",
+   "type": "object"
+  },
+  "DamageFx": {
+   "additionalProperties": false,
+   "description": "Reduce hp (negative heals). hp <= 0 fires `defeated`.",
+   "properties": {
+    "fx": {
+     "const": "damage",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "target",
+     "title": "Target"
+    },
+    "amount": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Amount"
+    }
+   },
+   "required": [
+    "fx",
+    "amount"
+   ],
+   "title": "DamageFx",
+   "type": "object"
+  },
+  "DestroyFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "destroy",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "target",
+     "title": "Target"
+    }
+   },
+   "required": [
+    "fx"
+   ],
+   "title": "DestroyFx",
+   "type": "object"
+  },
+  "EmitFx": {
+   "additionalProperties": false,
+   "description": "Fire a custom event (trigger: {on: custom, event: ...}).",
+   "properties": {
+    "fx": {
+     "const": "emit",
+     "title": "Fx",
+     "type": "string"
+    },
+    "event": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Event",
+     "type": "string"
+    },
+    "data": {
+     "additionalProperties": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "integer"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "$ref": "#/$defs/Ref"
+       },
+       {
+        "$ref": "#/$defs/Op"
+       },
+       {
+        "$ref": "#/$defs/Aggregate"
+       }
+      ]
+     },
+     "title": "Data",
+     "type": "object"
+    }
+   },
+   "required": [
+    "fx",
+    "event"
+   ],
+   "title": "EmitFx",
+   "type": "object"
+  },
+  "EntityType": {
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Type",
+     "type": "string"
+    },
+    "name": {
+     "maxLength": 32,
+     "title": "Name",
+     "type": "string"
+    },
+    "visual": {
+     "$ref": "#/$defs/Visual"
+    },
+    "tags": {
+     "items": {
+      "pattern": "^[a-z][a-z0-9_]{0,39}$",
+      "type": "string"
+     },
+     "title": "Tags",
+     "type": "array"
+    },
+    "solid": {
+     "default": false,
+     "title": "Solid",
+     "type": "boolean"
+    },
+    "pushable": {
+     "default": false,
+     "title": "Pushable",
+     "type": "boolean"
+    },
+    "collectible": {
+     "default": false,
+     "title": "Collectible",
+     "type": "boolean"
+    },
+    "interactable_by": {
+     "default": "anyone",
+     "enum": [
+      "nobody",
+      "anyone",
+      "owner",
+      "not_owner",
+      "creator"
+     ],
+     "title": "Interactable By",
+     "type": "string"
+    },
+    "interact_range": {
+     "default": 1.5,
+     "maximum": 10,
+     "minimum": 0.5,
+     "title": "Interact Range",
+     "type": "number"
+    },
+    "hp": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Hp"
+    },
+    "properties": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/PropertyDef"
+     },
+     "title": "Properties"
+    },
+    "behavior": {
+     "$ref": "#/$defs/Behavior"
+    },
+    "lifetime_s": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Lifetime S"
+    },
+    "spawn": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/SpawnRule"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null
+    },
+    "max_alive": {
+     "default": 50,
+     "maximum": 200,
+     "minimum": 1,
+     "title": "Max Alive",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "type",
+    "name"
+   ],
+   "title": "EntityType",
+   "type": "object"
+  },
+  "ForEachFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "for_each",
+     "title": "Fx",
+     "type": "string"
+    },
+    "in": {
+     "$ref": "#/$defs/Selector"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Do",
+     "type": "array"
+    }
+   },
+   "required": [
+    "fx",
+    "in"
+   ],
+   "title": "ForEachFx",
+   "type": "object"
+  },
+  "GiveFx": {
+   "additionalProperties": false,
+   "description": "Give (or take, if negative) items.",
+   "properties": {
+    "fx": {
+     "const": "give",
+     "title": "Fx",
+     "type": "string"
+    },
+    "to": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "To"
+    },
+    "item": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Item",
+     "type": "string"
+    },
+    "amount": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 1,
+     "title": "Amount"
+    }
+   },
+   "required": [
+    "fx",
+    "item"
+   ],
+   "title": "GiveFx",
+   "type": "object"
+  },
+  "GrantAbilityFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "grant_ability",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "ability": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Ability",
+     "type": "string"
+    },
+    "uses": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Uses"
+    }
+   },
+   "required": [
+    "fx",
+    "ability"
+   ],
+   "title": "GrantAbilityFx",
+   "type": "object"
+  },
+  "HudElement": {
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "enum": [
+      "counter",
+      "bar",
+      "timer",
+      "text",
+      "leaderboard",
+      "icon"
+     ],
+     "title": "Kind",
+     "type": "string"
+    },
+    "label": {
+     "maxLength": 24,
+     "title": "Label",
+     "type": "string"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Value"
+    },
+    "max": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Max"
+    },
+    "visible_to": {
+     "default": "owner",
+     "enum": [
+      "owner",
+      "everyone"
+     ],
+     "title": "Visible To",
+     "type": "string"
+    },
+    "anchor": {
+     "default": "top_left",
+     "enum": [
+      "top_left",
+      "top",
+      "top_right",
+      "bottom_left",
+      "bottom",
+      "bottom_right"
+     ],
+     "title": "Anchor",
+     "type": "string"
+    }
+   },
+   "required": [
+    "kind",
+    "label",
+    "value"
+   ],
+   "title": "HudElement",
+   "type": "object"
+  },
+  "IfFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "if",
+     "title": "Fx",
+     "type": "string"
+    },
+    "cond": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Cond"
+    },
+    "then": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Then",
+     "type": "array"
+    },
+    "else": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Else",
+     "type": "array"
+    }
+   },
+   "required": [
+    "fx",
+    "cond"
+   ],
+   "title": "IfFx",
+   "type": "object"
+  },
+  "ItemDef": {
+   "additionalProperties": false,
+   "properties": {
+    "item": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Item",
+     "type": "string"
+    },
+    "name": {
+     "maxLength": 32,
+     "title": "Name",
+     "type": "string"
+    },
+    "visual": {
+     "$ref": "#/$defs/Visual"
+    },
+    "stack_max": {
+     "default": 99,
+     "maximum": 999,
+     "minimum": 1,
+     "title": "Stack Max",
+     "type": "integer"
+    },
+    "tradable": {
+     "default": true,
+     "title": "Tradable",
+     "type": "boolean"
+    },
+    "droppable": {
+     "default": true,
+     "title": "Droppable",
+     "type": "boolean"
+    },
+    "usable": {
+     "default": false,
+     "title": "Usable",
+     "type": "boolean"
+    },
+    "consumed_on_use": {
+     "default": true,
+     "title": "Consumed On Use",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "item",
+    "name"
+   ],
+   "title": "ItemDef",
+   "type": "object"
+  },
+  "LetFx": {
+   "additionalProperties": false,
+   "description": "Bind vars.<name> for the remaining effects of this list.",
+   "properties": {
+    "fx": {
+     "const": "let",
+     "title": "Fx",
+     "type": "string"
+    },
+    "name": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Name",
+     "type": "string"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Value"
+    }
+   },
+   "required": [
+    "fx",
+    "name",
+    "value"
+   ],
+   "title": "LetFx",
+   "type": "object"
+  },
+  "Limits": {
+   "additionalProperties": false,
+   "description": "Rate limits. Every player-triggered rule and ability needs at least one.",
+   "properties": {
+    "cooldown_s": {
+     "anyOf": [
+      {
+       "maximum": 600,
+       "minimum": 0,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Cooldown S"
+    },
+    "global_cooldown_s": {
+     "anyOf": [
+      {
+       "maximum": 600,
+       "minimum": 0,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Global Cooldown S"
+    },
+    "max_per_player_per_day": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Max Per Player Per Day"
+    },
+    "max_per_day": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Max Per Day"
+    },
+    "max_total": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Max Total"
+    }
+   },
+   "title": "Limits",
+   "type": "object"
+  },
+  "MechanicLimits": {
+   "additionalProperties": false,
+   "properties": {
+    "points_per_player_per_day": {
+     "default": 5,
+     "maximum": 5,
+     "minimum": 0,
+     "title": "Points Per Player Per Day",
+     "type": "number"
+    },
+    "points_loss_per_player_per_day": {
+     "default": 5,
+     "maximum": 5,
+     "minimum": 0,
+     "title": "Points Loss Per Player Per Day",
+     "type": "number"
+    },
+    "expires_after_days": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Expires After Days"
+    }
+   },
+   "title": "MechanicLimits",
+   "type": "object"
+  },
+  "MessageFx": {
+   "additionalProperties": false,
+   "description": "Text supports templates: \"{actor.name} found {event.amount} gold\".",
+   "properties": {
+    "fx": {
+     "const": "message",
+     "title": "Fx",
+     "type": "string"
+    },
+    "to": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "To"
+    },
+    "text": {
+     "maxLength": 280,
+     "title": "Text",
+     "type": "string"
+    },
+    "style": {
+     "default": "toast",
+     "enum": [
+      "toast",
+      "announce",
+      "bubble",
+      "log"
+     ],
+     "title": "Style",
+     "type": "string"
+    }
+   },
+   "required": [
+    "fx",
+    "text"
+   ],
+   "title": "MessageFx",
+   "type": "object"
+  },
+  "Modifier": {
+   "additionalProperties": false,
+   "properties": {
+    "stat": {
+     "enum": [
+      "speed",
+      "size",
+      "vision",
+      "interact_range",
+      "points_mult",
+      "item_gain_mult",
+      "damage_mult",
+      "defense_mult",
+      "cooldown_mult"
+     ],
+     "title": "Stat",
+     "type": "string"
+    },
+    "op": {
+     "default": "mul",
+     "enum": [
+      "add",
+      "mul",
+      "set"
+     ],
+     "title": "Op",
+     "type": "string"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Value"
+    }
+   },
+   "required": [
+    "stat",
+    "value"
+   ],
+   "title": "Modifier",
+   "type": "object"
+  },
+  "MoveFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "move",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "mode": {
+     "default": "teleport",
+     "enum": [
+      "teleport",
+      "push",
+      "pull",
+      "dash",
+      "walk_to",
+      "swap"
+     ],
+     "title": "Mode",
+     "type": "string"
+    },
+    "to": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "To"
+    },
+    "distance": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 3,
+     "title": "Distance"
+    },
+    "speed": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 8,
+     "title": "Speed"
+    }
+   },
+   "required": [
+    "fx"
+   ],
+   "title": "MoveFx",
+   "type": "object"
+  },
+  "Op": {
+   "additionalProperties": false,
+   "description": "Function call. {\"op\": \"gt\", \"args\": [{\"ref\": \"target.apples\"}, 0]}",
+   "properties": {
+    "op": {
+     "enum": [
+      "add",
+      "sub",
+      "mul",
+      "div",
+      "mod",
+      "pow",
+      "neg",
+      "abs",
+      "min",
+      "max",
+      "floor",
+      "ceil",
+      "round",
+      "clamp",
+      "eq",
+      "ne",
+      "lt",
+      "le",
+      "gt",
+      "ge",
+      "and",
+      "or",
+      "not",
+      "if",
+      "random",
+      "random_int",
+      "chance",
+      "pick",
+      "distance",
+      "angle_to",
+      "in_zone",
+      "on_tile",
+      "facing",
+      "has_status",
+      "status_stacks",
+      "has_ability",
+      "has_item",
+      "item_count",
+      "concat",
+      "len",
+      "contains",
+      "lower",
+      "time",
+      "time_left",
+      "day",
+      "rank",
+      "player_count",
+      "is_creator",
+      "is_owner"
+     ],
+     "title": "Op",
+     "type": "string"
+    },
+    "args": {
+     "items": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "integer"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "$ref": "#/$defs/Ref"
+       },
+       {
+        "$ref": "#/$defs/Op"
+       },
+       {
+        "$ref": "#/$defs/Aggregate"
+       }
+      ]
+     },
+     "maxItems": 8,
+     "title": "Args",
+     "type": "array"
+    }
+   },
+   "required": [
+    "op"
+   ],
+   "title": "Op",
+   "type": "object"
+  },
+  "PaintFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "paint",
+     "title": "Fx",
+     "type": "string"
+    },
+    "tile": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Tile",
+     "type": "string"
+    },
+    "at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      }
+     ],
+     "default": "actor",
+     "title": "At"
+    },
+    "radius": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 1,
+     "title": "Radius"
+    },
+    "duration_s": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Duration S"
+    }
+   },
+   "required": [
+    "fx",
+    "tile"
+   ],
+   "title": "PaintFx",
+   "type": "object"
+  },
+  "Patch": {
+   "additionalProperties": false,
+   "description": "Modify an earlier mechanic. Path is a JSON pointer; list items can be\naddressed by index or by their id/type/name, e.g. /rules/shake_tree/limits/cooldown_s.",
+   "properties": {
+    "mechanic": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Mechanic",
+     "type": "string"
+    },
+    "op": {
+     "enum": [
+      "set",
+      "scale",
+      "add",
+      "disable",
+      "enable",
+      "remove"
+     ],
+     "title": "Op",
+     "type": "string"
+    },
+    "path": {
+     "default": "",
+     "title": "Path",
+     "type": "string"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Value"
+    }
+   },
+   "required": [
+    "mechanic",
+    "op"
+   ],
+   "title": "Patch",
+   "type": "object"
+  },
+  "PickOneFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "pick_one",
+     "title": "Fx",
+     "type": "string"
+    },
+    "options": {
+     "items": {
+      "$ref": "#/$defs/Weighted"
+     },
+     "maxItems": 8,
+     "minItems": 2,
+     "title": "Options",
+     "type": "array"
+    }
+   },
+   "required": [
+    "fx",
+    "options"
+   ],
+   "title": "PickOneFx",
+   "type": "object"
+  },
+  "Point": {
+   "additionalProperties": false,
+   "properties": {
+    "x": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "X"
+    },
+    "y": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Y"
+    }
+   },
+   "required": [
+    "x",
+    "y"
+   ],
+   "title": "Point",
+   "type": "object"
+  },
+  "PromptFx": {
+   "additionalProperties": false,
+   "description": "Ask a player to choose. Unanswered \u2192 `default` option (or nothing).",
+   "properties": {
+    "fx": {
+     "const": "prompt",
+     "title": "Fx",
+     "type": "string"
+    },
+    "to": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "To"
+    },
+    "question": {
+     "maxLength": 280,
+     "title": "Question",
+     "type": "string"
+    },
+    "options": {
+     "items": {
+      "$ref": "#/$defs/ChoiceOption"
+     },
+     "maxItems": 4,
+     "minItems": 2,
+     "title": "Options",
+     "type": "array"
+    },
+    "timeout_s": {
+     "default": 15,
+     "maximum": 60,
+     "minimum": 3,
+     "title": "Timeout S",
+     "type": "number"
+    },
+    "default": {
+     "anyOf": [
+      {
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Default"
+    }
+   },
+   "required": [
+    "fx",
+    "question",
+    "options"
+   ],
+   "title": "PromptFx",
+   "type": "object"
+  },
+  "PropertyDef": {
+   "additionalProperties": false,
+   "description": "A named value on a player, entity or the world. Resources are player props.",
+   "properties": {
+    "name": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Name",
+     "type": "string"
+    },
+    "type": {
+     "default": "number",
+     "enum": [
+      "number",
+      "bool",
+      "string",
+      "player",
+      "entity"
+     ],
+     "title": "Type",
+     "type": "string"
+    },
+    "default": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": 0,
+     "title": "Default"
+    },
+    "min": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Min"
+    },
+    "max": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Max"
+    },
+    "visible_to": {
+     "default": "owner",
+     "enum": [
+      "nobody",
+      "owner",
+      "everyone"
+     ],
+     "title": "Visible To",
+     "type": "string"
+    },
+    "label": {
+     "anyOf": [
+      {
+       "maxLength": 24,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Label"
+    },
+    "emoji": {
+     "anyOf": [
+      {
+       "maxLength": 8,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Emoji"
+    }
+   },
+   "required": [
+    "name"
+   ],
+   "title": "PropertyDef",
+   "type": "object"
+  },
+  "Ref": {
+   "additionalProperties": false,
+   "description": "Read a value: \"actor.points\", \"target.apples\", \"world.day\", \"event.from\", \"it.hp\".",
+   "properties": {
+    "ref": {
+     "pattern": "^(actor|target|it|event|world|mechanic|creator|vars)(\\.[a-z][a-z0-9_]*)*$",
+     "title": "Ref",
+     "type": "string"
+    }
+   },
+   "required": [
+    "ref"
+   ],
+   "title": "Ref",
+   "type": "object"
+  },
+  "RemoveStatusFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "remove_status",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "status": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Status",
+     "type": "string"
+    }
+   },
+   "required": [
+    "fx",
+    "status"
+   ],
+   "title": "RemoveStatusFx",
+   "type": "object"
+  },
+  "RemoveZoneFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "remove_zone",
+     "title": "Fx",
+     "type": "string"
+    },
+    "zone": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Zone",
+     "type": "string"
+    }
+   },
+   "required": [
+    "fx",
+    "zone"
+   ],
+   "title": "RemoveZoneFx",
+   "type": "object"
+  },
+  "RepeatFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "repeat",
+     "title": "Fx",
+     "type": "string"
+    },
+    "every_s": {
+     "maximum": 600,
+     "minimum": 0.5,
+     "title": "Every S",
+     "type": "number"
+    },
+    "times": {
+     "maximum": 20,
+     "minimum": 1,
+     "title": "Times",
+     "type": "integer"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Do",
+     "type": "array"
+    }
+   },
+   "required": [
+    "fx",
+    "every_s",
+    "times"
+   ],
+   "title": "RepeatFx",
+   "type": "object"
+  },
+  "RevokeAbilityFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "revoke_ability",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "ability": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Ability",
+     "type": "string"
+    }
+   },
+   "required": [
+    "fx",
+    "ability"
+   ],
+   "title": "RevokeAbilityFx",
+   "type": "object"
+  },
+  "Rule": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Id",
+     "type": "string"
+    },
+    "trigger": {
+     "$ref": "#/$defs/Trigger"
+    },
+    "if": {
+     "items": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "integer"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "$ref": "#/$defs/Ref"
+       },
+       {
+        "$ref": "#/$defs/Op"
+       },
+       {
+        "$ref": "#/$defs/Aggregate"
+       }
+      ]
+     },
+     "maxItems": 8,
+     "title": "If",
+     "type": "array"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "minItems": 1,
+     "title": "Do",
+     "type": "array"
+    },
+    "else": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Else",
+     "type": "array"
+    },
+    "limits": {
+     "$ref": "#/$defs/Limits"
+    },
+    "priority": {
+     "default": 0,
+     "title": "Priority",
+     "type": "integer"
+    },
+    "disabled": {
+     "default": false,
+     "title": "Disabled",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "id",
+    "trigger",
+    "do"
+   ],
+   "title": "Rule",
+   "type": "object"
+  },
+  "Selector": {
+   "additionalProperties": false,
+   "description": "Query players, entities or zones. Always bounded by `limit`.",
+   "properties": {
+    "kind": {
+     "default": "entities",
+     "enum": [
+      "players",
+      "entities",
+      "zones"
+     ],
+     "title": "Kind",
+     "type": "string"
+    },
+    "types": {
+     "anyOf": [
+      {
+       "items": {
+        "pattern": "^[a-z][a-z0-9_]{0,39}$",
+        "type": "string"
+       },
+       "type": "array"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Types"
+    },
+    "tags": {
+     "anyOf": [
+      {
+       "items": {
+        "pattern": "^[a-z][a-z0-9_]{0,39}$",
+        "type": "string"
+       },
+       "type": "array"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Tags"
+    },
+    "owner": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Owner"
+    },
+    "near": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Near"
+    },
+    "radius": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Radius"
+    },
+    "where": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Where"
+    },
+    "exclude_actor": {
+     "default": false,
+     "title": "Exclude Actor",
+     "type": "boolean"
+    },
+    "sort_by": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Sort By"
+    },
+    "descending": {
+     "default": false,
+     "title": "Descending",
+     "type": "boolean"
+    },
+    "limit": {
+     "default": 50,
+     "maximum": 50,
+     "minimum": 1,
+     "title": "Limit",
+     "type": "integer"
+    }
+   },
+   "title": "Selector",
+   "type": "object"
+  },
+  "SetFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "set",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "prop": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Prop",
+     "type": "string"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Value"
+    }
+   },
+   "required": [
+    "fx",
+    "prop",
+    "value"
+   ],
+   "title": "SetFx",
+   "type": "object"
+  },
+  "SetVisualFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "set_visual",
+     "title": "Fx",
+     "type": "string"
+    },
+    "target": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "actor",
+     "title": "Target"
+    },
+    "visual": {
+     "$ref": "#/$defs/VisualPatch"
+    },
+    "duration_s": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Duration S"
+    }
+   },
+   "required": [
+    "fx",
+    "visual"
+   ],
+   "title": "SetVisualFx",
+   "type": "object"
+  },
+  "SpawnFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "spawn",
+     "title": "Fx",
+     "type": "string"
+    },
+    "type": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Type",
+     "type": "string"
+    },
+    "at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      }
+     ],
+     "default": "actor",
+     "title": "At"
+    },
+    "count": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 1,
+     "title": "Count"
+    },
+    "scatter": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 0,
+     "title": "Scatter"
+    },
+    "owner": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Owner"
+    },
+    "props": {
+     "additionalProperties": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "integer"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "$ref": "#/$defs/Ref"
+       },
+       {
+        "$ref": "#/$defs/Op"
+       },
+       {
+        "$ref": "#/$defs/Aggregate"
+       }
+      ]
+     },
+     "title": "Props",
+     "type": "object"
+    }
+   },
+   "required": [
+    "fx",
+    "type"
+   ],
+   "title": "SpawnFx",
+   "type": "object"
+  },
+  "SpawnRule": {
+   "additionalProperties": false,
+   "properties": {
+    "count": {
+     "default": 0,
+     "maximum": 200,
+     "minimum": 0,
+     "title": "Count",
+     "type": "integer"
+    },
+    "at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      }
+     ],
+     "default": "random_empty",
+     "title": "At"
+    },
+    "pattern": {
+     "default": "scatter",
+     "enum": [
+      "scatter",
+      "cluster",
+      "grid",
+      "ring",
+      "line"
+     ],
+     "title": "Pattern",
+     "type": "string"
+    },
+    "radius": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Radius"
+    },
+    "respawn_every_s": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Respawn Every S"
+    },
+    "respawn_up_to": {
+     "anyOf": [
+      {
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Respawn Up To"
+    }
+   },
+   "title": "SpawnRule",
+   "type": "object"
+  },
+  "StatusDef": {
+   "additionalProperties": false,
+   "description": "Temporary buff/debuff on a player or entity. In hooks, `actor` = holder.",
+   "properties": {
+    "status": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Status",
+     "type": "string"
+    },
+    "name": {
+     "maxLength": 32,
+     "title": "Name",
+     "type": "string"
+    },
+    "visual": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/Visual"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null
+    },
+    "duration_s": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "default": 10,
+     "title": "Duration S"
+    },
+    "stacking": {
+     "default": "refresh",
+     "enum": [
+      "refresh",
+      "stack",
+      "extend",
+      "ignore"
+     ],
+     "title": "Stacking",
+     "type": "string"
+    },
+    "max_stacks": {
+     "default": 1,
+     "maximum": 10,
+     "minimum": 1,
+     "title": "Max Stacks",
+     "type": "integer"
+    },
+    "modifiers": {
+     "items": {
+      "$ref": "#/$defs/Modifier"
+     },
+     "title": "Modifiers",
+     "type": "array"
+    },
+    "flags": {
+     "items": {
+      "enum": [
+       "frozen",
+       "invisible",
+       "silenced",
+       "disarmed",
+       "immune",
+       "ghost",
+       "marked",
+       "reversed_controls"
+      ],
+      "type": "string"
+     },
+     "title": "Flags",
+     "type": "array"
+    },
+    "transfers_on_touch": {
+     "default": false,
+     "title": "Transfers On Touch",
+     "type": "boolean"
+    },
+    "transfer_cooldown_s": {
+     "default": 3,
+     "maximum": 600,
+     "minimum": 0,
+     "title": "Transfer Cooldown S",
+     "type": "number"
+    },
+    "tick_s": {
+     "anyOf": [
+      {
+       "minimum": 0.5,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Tick S"
+    },
+    "on_apply": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "On Apply",
+     "type": "array"
+    },
+    "on_tick": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "On Tick",
+     "type": "array"
+    },
+    "on_expire": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "On Expire",
+     "type": "array"
+    }
+   },
+   "required": [
+    "status",
+    "name"
+   ],
+   "title": "StatusDef",
+   "type": "object"
+  },
+  "StopFx": {
+   "additionalProperties": false,
+   "description": "Stop executing the current rule.",
+   "properties": {
+    "fx": {
+     "const": "stop",
+     "title": "Fx",
+     "type": "string"
+    }
+   },
+   "required": [
+    "fx"
+   ],
+   "title": "StopFx",
+   "type": "object"
+  },
+  "TileDef": {
+   "additionalProperties": false,
+   "description": "Ground paint. Placed with the `paint` effect.",
+   "properties": {
+    "tile": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Tile",
+     "type": "string"
+    },
+    "color": {
+     "pattern": "^#[0-9a-fA-F]{6}$",
+     "title": "Color",
+     "type": "string"
+    },
+    "walkable": {
+     "default": true,
+     "title": "Walkable",
+     "type": "boolean"
+    },
+    "speed_mult": {
+     "default": 1.0,
+     "maximum": 3,
+     "minimum": 0,
+     "title": "Speed Mult",
+     "type": "number"
+    },
+    "blocks_vision": {
+     "default": false,
+     "title": "Blocks Vision",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "tile",
+    "color"
+   ],
+   "title": "TileDef",
+   "type": "object"
+  },
+  "TransferFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "transfer",
+     "title": "Fx",
+     "type": "string"
+    },
+    "from": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "title": "From"
+    },
+    "to": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "title": "To"
+    },
+    "what": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "What",
+     "type": "string"
+    },
+    "amount": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "integer"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Op"
+      },
+      {
+       "$ref": "#/$defs/Aggregate"
+      }
+     ],
+     "title": "Amount"
+    }
+   },
+   "required": [
+    "fx",
+    "from",
+    "to",
+    "what",
+    "amount"
+   ],
+   "title": "TransferFx",
+   "type": "object"
+  },
+  "Trigger": {
+   "additionalProperties": false,
+   "properties": {
+    "on": {
+     "enum": [
+      "game_start",
+      "day_start",
+      "day_end",
+      "every",
+      "interact",
+      "collide",
+      "collect",
+      "near",
+      "enter_zone",
+      "leave_zone",
+      "use_ability",
+      "use_item",
+      "spawn",
+      "destroy",
+      "damaged",
+      "defeated",
+      "status_applied",
+      "status_expired",
+      "status_transferred",
+      "property_changed",
+      "points_changed",
+      "item_gained",
+      "chat",
+      "idle",
+      "custom"
+     ],
+     "title": "On",
+     "type": "string"
+    },
+    "entity": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Entity"
+    },
+    "tag": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Tag"
+    },
+    "zone": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Zone"
+    },
+    "ability": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Ability"
+    },
+    "item": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Item"
+    },
+    "status": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Status"
+    },
+    "property": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Property"
+    },
+    "event": {
+     "anyOf": [
+      {
+       "pattern": "^[a-z][a-z0-9_]{0,39}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Event"
+    },
+    "every_s": {
+     "anyOf": [
+      {
+       "maximum": 600,
+       "minimum": 1,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Every S"
+    },
+    "radius": {
+     "anyOf": [
+      {
+       "exclusiveMinimum": 0,
+       "maximum": 20,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Radius"
+    },
+    "idle_s": {
+     "anyOf": [
+      {
+       "minimum": 1,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Idle S"
+    },
+    "chat_contains": {
+     "anyOf": [
+      {
+       "maxLength": 40,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Chat Contains"
+    },
+    "actor": {
+     "default": "anyone",
+     "enum": [
+      "anyone",
+      "creator",
+      "not_creator",
+      "owner",
+      "not_owner"
+     ],
+     "title": "Actor",
+     "type": "string"
+    }
+   },
+   "required": [
+    "on"
+   ],
+   "title": "Trigger",
+   "type": "object"
+  },
+  "Visual": {
+   "additionalProperties": false,
+   "properties": {
+    "shape": {
+     "default": "circle",
+     "enum": [
+      "circle",
+      "square",
+      "triangle",
+      "diamond",
+      "hexagon",
+      "star",
+      "ring",
+      "cross",
+      "none"
+     ],
+     "title": "Shape",
+     "type": "string"
+    },
+    "color": {
+     "default": "#222222",
+     "pattern": "^#[0-9a-fA-F]{6}$",
+     "title": "Color",
+     "type": "string"
+    },
+    "emoji": {
+     "anyOf": [
+      {
+       "maxLength": 8,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Emoji"
+    },
+    "size": {
+     "default": 1.0,
+     "maximum": 8,
+     "minimum": 0.25,
+     "title": "Size",
+     "type": "number"
+    },
+    "label": {
+     "anyOf": [
+      {
+       "maxLength": 24,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Label"
+    },
+    "opacity": {
+     "default": 1.0,
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Opacity",
+     "type": "number"
+    },
+    "outline": {
+     "anyOf": [
+      {
+       "pattern": "^#[0-9a-fA-F]{6}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Outline"
+    },
+    "glow": {
+     "default": false,
+     "title": "Glow",
+     "type": "boolean"
+    },
+    "animation": {
+     "default": "none",
+     "enum": [
+      "none",
+      "pulse",
+      "spin",
+      "bob",
+      "shake",
+      "blink"
+     ],
+     "title": "Animation",
+     "type": "string"
+    },
+    "layer": {
+     "default": "object",
+     "enum": [
+      "ground",
+      "object",
+      "overhead"
+     ],
+     "title": "Layer",
+     "type": "string"
+    }
+   },
+   "title": "Visual",
+   "type": "object"
+  },
+  "VisualEffectFx": {
+   "additionalProperties": false,
+   "properties": {
+    "fx": {
+     "const": "fx",
+     "title": "Fx",
+     "type": "string"
+    },
+    "at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      }
+     ],
+     "default": "actor",
+     "title": "At"
+    },
+    "kind": {
+     "enum": [
+      "burst",
+      "ring",
+      "flash",
+      "shake",
+      "trail",
+      "confetti",
+      "sound"
+     ],
+     "title": "Kind",
+     "type": "string"
+    },
+    "color": {
+     "anyOf": [
+      {
+       "pattern": "^#[0-9a-fA-F]{6}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Color"
+    }
+   },
+   "required": [
+    "fx",
+    "kind"
+   ],
+   "title": "VisualEffectFx",
+   "type": "object"
+  },
+  "VisualPatch": {
+   "additionalProperties": false,
+   "description": "Partial Visual for set_visual.",
+   "properties": {
+    "shape": {
+     "anyOf": [
+      {
+       "enum": [
+        "circle",
+        "square",
+        "triangle",
+        "diamond",
+        "hexagon",
+        "star",
+        "ring",
+        "cross",
+        "none"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Shape"
+    },
+    "color": {
+     "anyOf": [
+      {
+       "pattern": "^#[0-9a-fA-F]{6}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Color"
+    },
+    "emoji": {
+     "anyOf": [
+      {
+       "maxLength": 8,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Emoji"
+    },
+    "size": {
+     "anyOf": [
+      {
+       "maximum": 8,
+       "minimum": 0.25,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Size"
+    },
+    "label": {
+     "anyOf": [
+      {
+       "maxLength": 24,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Label"
+    },
+    "opacity": {
+     "anyOf": [
+      {
+       "maximum": 1,
+       "minimum": 0,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Opacity"
+    },
+    "glow": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Glow"
+    },
+    "animation": {
+     "anyOf": [
+      {
+       "enum": [
+        "none",
+        "pulse",
+        "spin",
+        "bob",
+        "shake",
+        "blink"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Animation"
+    }
+   },
+   "title": "VisualPatch",
+   "type": "object"
+  },
+  "VoteFx": {
+   "additionalProperties": false,
+   "description": "Players vote; the winning option's effects run (actor = each voter for that option).",
+   "properties": {
+    "fx": {
+     "const": "vote",
+     "title": "Fx",
+     "type": "string"
+    },
+    "voters": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "creator",
+        "everyone",
+        "others",
+        "leader",
+        "last_place",
+        "random_player",
+        "world",
+        "mechanic"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Ref"
+      },
+      {
+       "$ref": "#/$defs/Selector"
+      }
+     ],
+     "default": "everyone",
+     "title": "Voters"
+    },
+    "question": {
+     "maxLength": 280,
+     "title": "Question",
+     "type": "string"
+    },
+    "options": {
+     "items": {
+      "$ref": "#/$defs/ChoiceOption"
+     },
+     "maxItems": 6,
+     "minItems": 2,
+     "title": "Options",
+     "type": "array"
+    },
+    "duration_s": {
+     "default": 30,
+     "maximum": 120,
+     "minimum": 10,
+     "title": "Duration S",
+     "type": "number"
+    },
+    "tie": {
+     "default": "random",
+     "enum": [
+      "none",
+      "random",
+      "first"
+     ],
+     "title": "Tie",
+     "type": "string"
+    }
+   },
+   "required": [
+    "fx",
+    "question",
+    "options"
+   ],
+   "title": "VoteFx",
+   "type": "object"
+  },
+  "Weighted": {
+   "additionalProperties": false,
+   "properties": {
+    "weight": {
+     "default": 1,
+     "exclusiveMinimum": 0,
+     "title": "Weight",
+     "type": "number"
+    },
+    "do": {
+     "items": {
+      "discriminator": {
+       "mapping": {
+        "add_points": "#/$defs/AddPointsFx",
+        "after": "#/$defs/AfterFx",
+        "apply_status": "#/$defs/ApplyStatusFx",
+        "chance": "#/$defs/ChanceFx",
+        "change": "#/$defs/ChangeFx",
+        "create_zone": "#/$defs/CreateZoneFx",
+        "damage": "#/$defs/DamageFx",
+        "destroy": "#/$defs/DestroyFx",
+        "emit": "#/$defs/EmitFx",
+        "for_each": "#/$defs/ForEachFx",
+        "fx": "#/$defs/VisualEffectFx",
+        "give": "#/$defs/GiveFx",
+        "grant_ability": "#/$defs/GrantAbilityFx",
+        "if": "#/$defs/IfFx",
+        "let": "#/$defs/LetFx",
+        "message": "#/$defs/MessageFx",
+        "move": "#/$defs/MoveFx",
+        "paint": "#/$defs/PaintFx",
+        "pick_one": "#/$defs/PickOneFx",
+        "prompt": "#/$defs/PromptFx",
+        "remove_status": "#/$defs/RemoveStatusFx",
+        "remove_zone": "#/$defs/RemoveZoneFx",
+        "repeat": "#/$defs/RepeatFx",
+        "revoke_ability": "#/$defs/RevokeAbilityFx",
+        "set": "#/$defs/SetFx",
+        "set_visual": "#/$defs/SetVisualFx",
+        "spawn": "#/$defs/SpawnFx",
+        "stop": "#/$defs/StopFx",
+        "transfer": "#/$defs/TransferFx",
+        "vote": "#/$defs/VoteFx"
+       },
+       "propertyName": "fx"
+      },
+      "oneOf": [
+       {
+        "$ref": "#/$defs/SetFx"
+       },
+       {
+        "$ref": "#/$defs/ChangeFx"
+       },
+       {
+        "$ref": "#/$defs/AddPointsFx"
+       },
+       {
+        "$ref": "#/$defs/GiveFx"
+       },
+       {
+        "$ref": "#/$defs/TransferFx"
+       },
+       {
+        "$ref": "#/$defs/SpawnFx"
+       },
+       {
+        "$ref": "#/$defs/DestroyFx"
+       },
+       {
+        "$ref": "#/$defs/MoveFx"
+       },
+       {
+        "$ref": "#/$defs/DamageFx"
+       },
+       {
+        "$ref": "#/$defs/ApplyStatusFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveStatusFx"
+       },
+       {
+        "$ref": "#/$defs/GrantAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/RevokeAbilityFx"
+       },
+       {
+        "$ref": "#/$defs/CreateZoneFx"
+       },
+       {
+        "$ref": "#/$defs/RemoveZoneFx"
+       },
+       {
+        "$ref": "#/$defs/PaintFx"
+       },
+       {
+        "$ref": "#/$defs/SetVisualFx"
+       },
+       {
+        "$ref": "#/$defs/EmitFx"
+       },
+       {
+        "$ref": "#/$defs/AfterFx"
+       },
+       {
+        "$ref": "#/$defs/RepeatFx"
+       },
+       {
+        "$ref": "#/$defs/IfFx"
+       },
+       {
+        "$ref": "#/$defs/ForEachFx"
+       },
+       {
+        "$ref": "#/$defs/ChanceFx"
+       },
+       {
+        "$ref": "#/$defs/PickOneFx"
+       },
+       {
+        "$ref": "#/$defs/LetFx"
+       },
+       {
+        "$ref": "#/$defs/MessageFx"
+       },
+       {
+        "$ref": "#/$defs/VisualEffectFx"
+       },
+       {
+        "$ref": "#/$defs/PromptFx"
+       },
+       {
+        "$ref": "#/$defs/VoteFx"
+       },
+       {
+        "$ref": "#/$defs/StopFx"
+       }
+      ]
+     },
+     "maxItems": 20,
+     "title": "Do",
+     "type": "array"
+    }
+   },
+   "title": "Weighted",
+   "type": "object"
+  },
+  "ZoneDef": {
+   "additionalProperties": false,
+   "description": "An area with passive properties; fires enter_zone / leave_zone.",
+   "properties": {
+    "zone": {
+     "pattern": "^[a-z][a-z0-9_]{0,39}$",
+     "title": "Zone",
+     "type": "string"
+    },
+    "name": {
+     "maxLength": 32,
+     "title": "Name",
+     "type": "string"
+    },
+    "shape": {
+     "default": "circle",
+     "enum": [
+      "circle",
+      "rect"
+     ],
+     "title": "Shape",
+     "type": "string"
+    },
+    "at": {
+     "anyOf": [
+      {
+       "enum": [
+        "actor",
+        "target",
+        "it",
+        "event",
+        "creator",
+        "random",
+        "random_empty",
+        "center",
+        "edge"
+       ],
+       "type": "string"
+      },
+      {
+       "$ref": "#/$defs/Point"
+      },
+      {
+       "$ref": "#/$defs/Around"
+      }
+     ],
+     "default": "center",
+     "title": "At"
+    },
+    "radius": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": 3,
+     "title": "Radius"
+    },
+    "width": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Width"
+    },
+    "height": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Height"
+    },
+    "visual": {
+     "$ref": "#/$defs/Visual"
+    },
+    "speed_mult": {
+     "default": 1.0,
+     "maximum": 3,
+     "minimum": 0,
+     "title": "Speed Mult",
+     "type": "number"
+    },
+    "no_interact": {
+     "default": false,
+     "title": "No Interact",
+     "type": "boolean"
+    },
+    "no_abilities": {
+     "default": false,
+     "title": "No Abilities",
+     "type": "boolean"
+    },
+    "hides_players": {
+     "default": false,
+     "title": "Hides Players",
+     "type": "boolean"
+    },
+    "blocks": {
+     "default": "nobody",
+     "enum": [
+      "nobody",
+      "everyone",
+      "others",
+      "non_owner"
+     ],
+     "title": "Blocks",
+     "type": "string"
+    },
+    "properties": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/PropertyDef"
+     },
+     "title": "Properties"
+    },
+    "placed_at_start": {
+     "default": true,
+     "title": "Placed At Start",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "zone",
+    "name"
+   ],
+   "title": "ZoneDef",
+   "type": "object"
+  }
+ },
+ "additionalProperties": false,
+ "description": "One player's mechanic for one day.",
+ "properties": {
+  "dsl_version": {
+   "const": "0.1",
+   "default": "0.1",
+   "title": "Dsl Version",
+   "type": "string"
+  },
+  "id": {
+   "pattern": "^[a-z][a-z0-9_]{0,39}$",
+   "title": "Id",
+   "type": "string"
+  },
+  "name": {
+   "maxLength": 40,
+   "title": "Name",
+   "type": "string"
+  },
+  "summary": {
+   "maxLength": 280,
+   "title": "Summary",
+   "type": "string"
+  },
+  "creator": {
+   "title": "Creator",
+   "type": "string"
+  },
+  "day": {
+   "minimum": 0,
+   "title": "Day",
+   "type": "integer"
+  },
+  "player_props": {
+   "items": {
+    "$ref": "#/$defs/PropertyDef"
+   },
+   "title": "Player Props",
+   "type": "array"
+  },
+  "world_props": {
+   "items": {
+    "$ref": "#/$defs/PropertyDef"
+   },
+   "title": "World Props",
+   "type": "array"
+  },
+  "items": {
+   "items": {
+    "$ref": "#/$defs/ItemDef"
+   },
+   "title": "Items",
+   "type": "array"
+  },
+  "entities": {
+   "items": {
+    "$ref": "#/$defs/EntityType"
+   },
+   "title": "Entities",
+   "type": "array"
+  },
+  "tiles": {
+   "items": {
+    "$ref": "#/$defs/TileDef"
+   },
+   "title": "Tiles",
+   "type": "array"
+  },
+  "zones": {
+   "items": {
+    "$ref": "#/$defs/ZoneDef"
+   },
+   "title": "Zones",
+   "type": "array"
+  },
+  "statuses": {
+   "items": {
+    "$ref": "#/$defs/StatusDef"
+   },
+   "title": "Statuses",
+   "type": "array"
+  },
+  "abilities": {
+   "items": {
+    "$ref": "#/$defs/AbilityDef"
+   },
+   "title": "Abilities",
+   "type": "array"
+  },
+  "rules": {
+   "items": {
+    "$ref": "#/$defs/Rule"
+   },
+   "title": "Rules",
+   "type": "array"
+  },
+  "hud": {
+   "items": {
+    "$ref": "#/$defs/HudElement"
+   },
+   "title": "Hud",
+   "type": "array"
+  },
+  "patches": {
+   "items": {
+    "$ref": "#/$defs/Patch"
+   },
+   "title": "Patches",
+   "type": "array"
+  },
+  "creator_perk": {
+   "$ref": "#/$defs/CreatorPerk"
+  },
+  "limits": {
+   "$ref": "#/$defs/MechanicLimits"
+  },
+  "disabled": {
+   "default": false,
+   "title": "Disabled",
+   "type": "boolean"
+  }
+ },
+ "required": [
+  "id",
+  "name",
+  "summary",
+  "creator",
+  "day"
+ ],
+ "title": "Mechanic",
+ "type": "object"
+}
