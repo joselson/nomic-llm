@@ -1,0 +1,14 @@
+services:
+  patch-notes:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      DEBUG: ${DEBUG:-0}
+      # Any tunable from backend/app/config.py, e.g.:
+      # PN_PLAY_SECONDS: "420"
+      # PN_COMPILE_MODEL: "claude-sonnet-5-5"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

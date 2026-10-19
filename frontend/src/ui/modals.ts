@@ -164,7 +164,7 @@ function gameOverModal(g: GameOver): Modal {
       h("td", { class: "muted" }, String(i + 1)),
       h("td", null, h("span", { class: "dot", style: { background: s.color, display: "inline-block", verticalAlign: "middle", marginRight: "6px" } }), s.name),
       h("td", { style: "text-align:right;font-weight:700" }, String(s.points))))),
-    h("h3", null, `The ${g.mechanics.length} mechanics of this game`),
+    h("h3", null, g.mechanics.length ? `The ${g.mechanics.length} mechanics of this game` : "Mechanics"),
     g.mechanics.length ? h("ul", { class: "mech-list" }, ...g.mechanics.map((m) => h("li", null,
       h("b", null, m.name), h("span", { class: "muted" }, ` · day ${m.day} · by ${m.author}`),
       m.summary ? h("div", null, m.summary) : null))) : h("div", { class: "muted" }, "None"),
