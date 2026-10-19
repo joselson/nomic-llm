@@ -838,6 +838,32 @@ def validate_mechanic(m: Mechanic, existing: list[Mechanic]) -> tuple[list[str],
     if nodes > MAX_NODES:
         errors.append(f"too complex: {nodes} nodes > {MAX_NODES}")
 
+    # engine support (SPEC §4.10) and other runtime constraints
+    from game.engine.support import (UNSUPPORTED_BEHAVIORS, UNSUPPORTED_FX, UNSUPPORTED_OPS,
+                                     UNSUPPORTED_TRIGGERS)
+    for n in _walk(m):
+        if isinstance(n, Op) and n.op in UNSUPPORTED_OPS:
+            errors.append(f"op '{n.op}' is not available yet")
+        elif isinstance(n, Trigger) and n.on in UNSUPPORTED_TRIGGERS:
+            errors.append(f"trigger '{n.on}' is not available yet")
+        elif isinstance(n, Behavior) and n.kind in UNSUPPORTED_BEHAVIORS:
+            errors.append(f"behavior '{n.kind}' is not available yet")
+        elif isinstance(n, BaseModel) and "fx" in type(n).model_fields and getattr(n, "fx") in UNSUPPORTED_FX:
+            errors.append(f"effect '{n.fx}' is not available yet")
+        elif isinstance(n, PromptFx) and n.default is not None and not 0 <= n.default < len(n.options):
+            errors.append(f"prompt default {n.default} is not a valid option index")
+    builtins = PLAYER_BUILTINS | ENTITY_BUILTINS | WORLD_BUILTINS
+    own_props = [p.name for p in m.player_props + m.world_props]
+    own_props += [p.name for e in m.entities for p in e.properties]
+    own_props += [p.name for z in m.zones for p in z.properties]
+    for name in own_props:
+        if name in builtins:
+            errors.append(f"property '{name}' shadows a built-in")
+    item_ids = {i.item for i in m.items}
+    for name in own_props:
+        if name in item_ids:
+            errors.append(f"property '{name}' has the same id as an item")
+
     for p in m.patches:
         if p.mechanic not in by_id:
             errors.append(f"patch: unknown mechanic '{p.mechanic}'")
